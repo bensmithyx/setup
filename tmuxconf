@@ -1,0 +1,44 @@
+
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# split panes using | and -
+bind ] split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# reload config file (change file location to your the tmux.conf you want to use)
+bind r source-file ~/.tmux.conf
+
+# switch panes using Alt-arrow without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+set -g mouse off
+
+# Tmux Power Theme Settings
+set -g @tmux_power_theme 'moon'
+set -g @tmux_power_show_upload_speed false
+set -g @tmux_power_show_download_speed false
+set -g @tmux_power_date_icon ' ' # set it to a blank will disable the icon
+set -g @tmux_power_time_icon ' ' # emoji can be used if your terminal supports
+set -g @tmux_power_user_icon ''
+set -g @tmux_power_session_icon ' '
+set -g @tmux_power_upload_speed_icon '↑'
+set -g @tmux_power_download_speed_icon '↓'
+set -g @tmux_power_left_arrow_icon ''
+set -g @tmux_power_right_arrow_icon ''
+set -g @tmux_power_show_web_reachable True
+
+# List of plugins
+set -g @plugin 'wfxr/tmux-power'
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
+

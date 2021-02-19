@@ -1,0 +1,14 @@
+#!/bin/bash
+# Creating bashrc
+cat bashrc > ~/.bashrc
+# Installing
+sudo apt -y install tmux xclip
+# Creating tmux config
+cat tmuxconf > ~/.tmux.conf
+# Instaling tpm for tmux
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# Sourcing tmux config
+tmux source ~/.tmux.conf
+~/.tmux/plugins/tpm/scripts/install_plugins.sh
+~/.tmux/plugins/tpm/scripts/source_plugins.sh
+
