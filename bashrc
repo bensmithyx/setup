@@ -116,8 +116,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PS1="\[\e[31m\]┌───\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[31m\]@\[\e[m\]\[\e[33m\]\h\[\e[m\]\[\e[31m\]]\[\e[m\]\[\e[31m\]—\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[36m\]\$((ip -c=never a show tun0 2>/dev/null || ip -c=never a show eth0 2>/dev/null || ip -c=never a show ens33 2>/dev/null) | grep 'inet\b' | awk '{print \$2}' | cut -d '/' -f 1)\[\e[m\]\[\e[31m\]]\[\e[m\]\[\e[31m\]—\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[33m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]
+
+#export PS1="\[\e[31;33m\]┌───[\[\e[m\]\[\e[35m\]\u\[\e[m\]\[\e[36m\]@\[\e[m\]\[\e[35m\]\h\[\e[m\]\[\e[33m\]]\[\e[m\]\[\e[36m\]~\[\e[m\]\[\e[33m\][\[\e[m\]\[\e[35m\]\w\[\e[m\]\[\e[33m\]]\[\e[m\]
+#\[\e[31;33m\]└──( \[\e[0m\]"
+
+export PS1="\[\e[31m\]┌───\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[31m\]@\[\e[m\]\[\e[33m\]\h\[\e[m\]\[\e[31m\]]\[\e[m\]\[\e[31m\]—\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[36m\]$((ip -c=never a show tun0 2>/dev/null || ip -c=never a show eth0 2>/dev/null || ip -c=never a show ens33 2>/dev/null) | grep 'inet\b' | awk '{print $2}' | cut -d '/' -f 1)\[\e[m\]\[\e[31m\]]\[\e[m\]\[\e[31m\]—\[\e[m\]\[\e[31m\][\[\e[m\]\[\e[33m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]
 \[\e[31;31m\]└──( \[\e[0m\]"
+
+
 
 compile()
 {
@@ -129,8 +135,13 @@ assemble()
 	nasm -f elf -g -F stabs "$1";
 	ld -m elf_i386 -o "${1%.*}" "${1%.*}".o;
 }
+
+# Aliases
 alias clip="xclip -sel clip"
 alias ip="ip"
+alias warwick="cd /mnt/c/Users/benmo/OneDrive\ -\ University\ of\ Warwick/"
+
+cd
 
 #=== NETKIT VARIABLES ===
 # additions for netkit
@@ -139,4 +150,6 @@ export MANPATH="$MANPATH:$NETKIT_HOME/man"
 export PATH="$PATH:$NETKIT_HOME/bin"
 #=== NETKIT VARIABLES END ===
 
-cd
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi
