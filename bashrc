@@ -138,8 +138,8 @@ assemble()
 
 # Aliases
 alias clip="xclip -sel clip"
-alias ip="ip"
-alias warwick="cd /mnt/c/Users/benmo/OneDrive\ -\ University\ of\ Warwick/"
+alias ip="ip -c"
+alias drive="cd /mnt/c/Users/benmo/OneDrive\ -\ University\ of\ Warwick/"
 
 cd
 
