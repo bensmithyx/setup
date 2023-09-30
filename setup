@@ -9,5 +9,20 @@ cat tmuxconf > ~/.tmux.conf
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/scripts/install_plugins.sh
 ~/.tmux/plugins/tpm/scripts/source_plugins.sh
+# Set the path to your TTF file
+TTF_FILE="CaskaydiaCoveNerdFontMono-Regular.ttf"
+
+# Check if the TTF file exists
+if [ ! -f "$TTF_FILE" ]; then
+    echo "Font file not found: $TTF_FILE"
+    exit 1
+fi
+
+# Set the directory where system fonts are stored
+FONT_DIR="/usr/share/fonts/"
+# Copy the TTF file to the system fonts directory
+sudo cp "$TTF_FILE" "$FONT_DIR"
+# Update the font cache
+sudo fc-cache -f -v
 tmux source ~/.tmux.conf
 source ~/.bashrc
