@@ -67,22 +67,16 @@ elif $load_wsl_profile; then
   # Read the existing settings.json file
   CONFIG_JSON=$(<"$SETTINGS_FILE")
 
-  # Check if the color scheme already exists in the configuration
-  if echo "$CONFIG_JSON" | jq '.schemes[] | select(.name == "Blue Matrix")' &> /dev/null; then
-      echo "Color scheme 'Blue Matrix' already exists in the configuration."
+  # Add the new color scheme to the "schemes" section
+  CONFIG_JSON=$(echo "$CONFIG_JSON" | jq ".schemes += [$NEW_SCHEME]")
 
-  else
-    # Add the new color scheme to the "schemes" section
-    CONFIG_JSON=$(echo "$CONFIG_JSON" | jq ".schemes += [$NEW_SCHEME]")
+  # Set the new color scheme as the default
+  CONFIG_JSON=$(echo "$CONFIG_JSON" | jq '.defaults.colorScheme = "Blue Matrix"')
 
-    # Set the new color scheme as the default
-    CONFIG_JSON=$(echo "$CONFIG_JSON" | jq '.defaults.colorScheme = "Blue Matrix"')
+ # Write the updated JSON back to the settings file
+  echo "$CONFIG_JSON" > "$SETTINGS_FILE"
 
-    # Write the updated JSON back to the settings file
-    echo "$CONFIG_JSON" > "$SETTINGS_FILE"
-
-    echo "New color scheme 'Blue Matrix' added to $SETTINGS_FILE and set as default for user $windows_username."
-  fi
+  echo "New color scheme 'Blue Matrix' added to $SETTINGS_FILE and set as default for user $windows_username."
 
 else
   echo "Please specify either --gnome or --wsl as an option."
