@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 load_gnome_profile=false
 load_wsl_profile=false
 
@@ -21,7 +19,7 @@ if $load_gnome_profile; then
   dconf load /org/gnome/terminal/legacy/profiles:/ < configs/gnome-profile.dconf
 elif $load_wsl_profile; then
   # Load the WSL profile
-  dconf load /org/gnome/terminal/legacy/profiles:/ < gnome-terminal-wsl-profile.dconf
+  :
 else
   echo "Please specify either --gnome or --wsl as an option."
   exit 1
@@ -57,3 +55,4 @@ sudo fc-cache -f -v
 
 tmux source ~/.tmux.conf
 source ~/.bashrc
+
