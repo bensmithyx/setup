@@ -1,16 +1,46 @@
 #!/bin/bash
+
+#!/bin/bash
+
+load_gnome_profile=false
+load_wsl_profile=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --gnome) load_gnome_profile=true ;;
+    --wsl) load_wsl_profile=true ;;
+    *) echo "Invalid option: $1"
+       exit 1 ;;
+  esac
+  shift
+done
+
+# Check if either GNOME or WSL profile should be loaded
+if $load_gnome_profile; then
+  # Load the GNOME profile
+  dconf load /org/gnome/terminal/legacy/profiles:/ < configs/gnome-profile.dconf
+elif $load_wsl_profile; then
+  # Load the WSL profile
+  dconf load /org/gnome/terminal/legacy/profiles:/ < gnome-terminal-wsl-profile.dconf
+else
+  echo "Please specify either --gnome or --wsl as an option."
+  exit 1
+fi
+
+
 # Creating bashrc
-cat bashrc > ~/.bashrc
+cat configs/bashrc > ~/.bashrc
 # Installing
 sudo apt -y install tmux xclip fonts-powerline
 # Creating tmux config
-cat tmuxconf > ~/.tmux.conf
+cat configs/tmuxconf > ~/.tmux.conf
 # Instaling tpm for tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/scripts/install_plugins.sh
 ~/.tmux/plugins/tpm/scripts/source_plugins.sh
+
 # Set the path to your TTF file
-TTF_FILE="CaskaydiaCoveNerdFontMono-Regular.ttf"
+TTF_FILE="configs/CaskaydiaCoveNerdFontMono-Regular.ttf"
 
 # Check if the TTF file exists
 if [ ! -f "$TTF_FILE" ]; then
@@ -24,5 +54,6 @@ FONT_DIR="/usr/share/fonts/"
 sudo cp "$TTF_FILE" "$FONT_DIR"
 # Update the font cache
 sudo fc-cache -f -v
+
 tmux source ~/.tmux.conf
 source ~/.bashrc
